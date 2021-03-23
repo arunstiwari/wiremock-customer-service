@@ -16,11 +16,12 @@ public class CustomerService {
     @Autowired
     private Environment env;
 
-    private final RestTemplate restTemplate;
+    @Autowired
+    private RestTemplate restTemplate;
     private List<Customer> customers = new ArrayList<>();
 
     public  CustomerService() {
-        this.restTemplate = new RestTemplate();
+
     }
     public List<Customer> fetchAll() {
         return customers;
@@ -40,6 +41,7 @@ public class CustomerService {
     }
 
     public Order fetchOrders(String id) {
+        System.out.println("request id = " + id);
         String baseUrl = env.getProperty("wiremock.url.orderservice");
         Order order = restTemplate.getForObject(baseUrl+"/orders/customers/{customerId}", Order.class,"cust-2232");
         System.out.println("order = " + order);
