@@ -2,6 +2,7 @@ package com.tekmentor.customerservice.service;
 
 import com.tekmentor.customerservice.model.Customer;
 import com.tekmentor.customerservice.model.Order;
+import com.tekmentor.customerservice.model.ShippingStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -42,9 +43,24 @@ public class CustomerService {
 
     public Order fetchOrders(String id) {
         System.out.println("request id = " + id);
-        String baseUrl = env.getProperty("wiremock.url.orderservice");
-        Order order = restTemplate.getForObject(baseUrl+"/orders/customers/{customerId}", Order.class,"cust-2232");
-        System.out.println("order = " + order);
+        String orderServiceUrl = env.getProperty("orderservice.url.customerid");
+        System.out.println("orderServiceUrl = " + orderServiceUrl);
+        String shippingServiceUrl = env.getProperty("shippingservice.url.orderid");
+        System.out.println("shippingServiceUrl = " + shippingServiceUrl);
+        Order order = restTemplate.getForObject(orderServiceUrl, Order.class,id);
+        System.out.println("order id = " + order.getId());
+        ShippingStatus status = restTemplate.getForObject(shippingServiceUrl,ShippingStatus.class, order.getId());
+        order.setOrderStatus(status);
+        System.out.println("order  = " + order);
         return order;
     }
+
+    public ShippingStatus fetchStatusForGivenOrderId(String orderId) {
+        System.out.println("shipping order request id = " + orderId);
+        String baseUrl = env.getProperty("shippingservice.url.orderid");
+        ShippingStatus shippingStatus = restTemplate.getForObject(baseUrl, ShippingStatus.class,orderId);
+        System.out.println("order = " + shippingStatus);
+        return shippingStatus;
+    }
+
 }

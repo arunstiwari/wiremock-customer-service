@@ -9,6 +9,7 @@ public class Order {
     private Date orderDate;
     private String customerId;
     private Double totalAmount;
+    private ShippingStatus status;
 
     public Order() {
     }
@@ -52,6 +53,10 @@ public class Order {
         this.totalAmount = totalAmount;
     }
 
+    public void setOrderStatus(ShippingStatus status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
@@ -59,6 +64,7 @@ public class Order {
                 .append("orderDate", orderDate)
                 .append("customerId", customerId)
                 .append("totalAmount", totalAmount)
+                .append("status", status)
                 .toString();
     }
 }

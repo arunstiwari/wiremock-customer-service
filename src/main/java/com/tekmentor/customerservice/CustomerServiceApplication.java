@@ -22,8 +22,8 @@ public class CustomerServiceApplication {
 
     private ClientHttpRequestFactory clientHttpRequestFactory() {
       SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-      factory.setReadTimeout(300);
-      factory.setConnectTimeout(300);
+//      factory.setReadTimeout(300);
+//      factory.setConnectTimeout(300);
       return factory;
     }
 

@@ -2,6 +2,7 @@ package com.tekmentor.customerservice.controller;
 
 import com.tekmentor.customerservice.model.Customer;
 import com.tekmentor.customerservice.model.Order;
+import com.tekmentor.customerservice.model.ShippingStatus;
 import com.tekmentor.customerservice.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,11 @@ public class CustomerController {
     @GetMapping("/customers/{id}/orders")
     public Order fetchOrderForGivenCustomer(@PathVariable("id") String id){
         return customerService.fetchOrders(id);
+    }
+
+    @GetMapping("/customers/shipping/{orderId}")
+    public ShippingStatus fetchShippingStatusForGivenOrderId(@PathVariable("orderId") String orderId){
+        return customerService.fetchStatusForGivenOrderId(orderId);
     }
 
 }
