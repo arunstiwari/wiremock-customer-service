@@ -41,15 +41,17 @@ public class CustomerService {
         return customer;
     }
 
-    public Order fetchOrders(String id) {
-        System.out.println("request id = " + id);
+    public Order fetchOrders(String customerId) {
+        System.out.println("customerId = " + customerId);
         String orderServiceUrl = env.getProperty("orderservice.url.customerid");
         System.out.println("orderServiceUrl = " + orderServiceUrl);
         String shippingServiceUrl = env.getProperty("shippingservice.url.orderid");
         System.out.println("shippingServiceUrl = " + shippingServiceUrl);
-        Order order = restTemplate.getForObject(orderServiceUrl, Order.class,id);
+
+        Order order = restTemplate.getForObject(orderServiceUrl, Order.class,customerId);
         System.out.println("order id = " + order.getId());
         ShippingStatus status = restTemplate.getForObject(shippingServiceUrl,ShippingStatus.class, order.getId());
+
         order.setOrderStatus(status);
         System.out.println("order  = " + order);
         return order;

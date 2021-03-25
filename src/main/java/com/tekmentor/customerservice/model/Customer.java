@@ -1,6 +1,7 @@
 package com.tekmentor.customerservice.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class Customer {
     private String id;
@@ -39,7 +40,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLEs)
                 .append("id", id)
                 .append("name", name)
                 .append("age", age)
