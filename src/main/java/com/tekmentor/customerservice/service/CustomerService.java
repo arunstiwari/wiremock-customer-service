@@ -3,6 +3,8 @@ package com.tekmentor.customerservice.service;
 import com.tekmentor.customerservice.model.Customer;
 import com.tekmentor.customerservice.model.Order;
 import com.tekmentor.customerservice.model.ShippingStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Service
 public class CustomerService {
+    private final static Logger LOG = LoggerFactory.getLogger(CustomerService.class);
     @Autowired
     private Environment env;
 
@@ -21,9 +24,8 @@ public class CustomerService {
     private RestTemplate restTemplate;
     private List<Customer> customers = new ArrayList<>();
 
-    public  CustomerService() {
+    public  CustomerService() {}
 
-    }
     public List<Customer> fetchAll() {
         return customers;
     }
@@ -42,18 +44,18 @@ public class CustomerService {
     }
 
     public Order fetchOrders(String customerId) {
-        System.out.println("customerId = " + customerId);
+        LOG.info("customerId = {}",customerId);
         String orderServiceUrl = env.getProperty("orderservice.url.customerid");
-        System.out.println("orderServiceUrl = " + orderServiceUrl);
+        LOG.info("orderServiceUrl = {}",orderServiceUrl);
         String shippingServiceUrl = env.getProperty("shippingservice.url.orderid");
-        System.out.println("shippingServiceUrl = " + shippingServiceUrl);
+        LOG.info("shippingServiceUrl = {}" , shippingServiceUrl);
 
         Order order = restTemplate.getForObject(orderServiceUrl, Order.class,customerId);
-        System.out.println("order id = " + order.getId());
+        LOG.info("order id = {} " , order.getId());
         ShippingStatus status = restTemplate.getForObject(shippingServiceUrl,ShippingStatus.class, order.getId());
 
         order.setOrderStatus(status);
-        System.out.println("order  = " + order);
+        LOG.info("order  = {} " , order);
         return order;
     }
 
@@ -64,5 +66,4 @@ public class CustomerService {
         System.out.println("order = " + shippingStatus);
         return shippingStatus;
     }
-
 }
