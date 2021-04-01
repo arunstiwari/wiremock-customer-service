@@ -40,6 +40,10 @@ public class CustomerService {
         String id = String.valueOf(new Date().getTime());
         customer.setId(id);
         customers.add(customer);
+        String orderServiceUrl = env.getProperty("orderservice.url");
+        Order o = new Order("ord-"+id, new Date(), id, 500.0);
+        Order order = restTemplate.postForObject(orderServiceUrl,o, Order.class);
+        LOG.info("Order Posted to Order service:  {}",order);
         return customer;
     }
 
