@@ -32,7 +32,7 @@ public class CustomerService {
 
     public Customer fetchCustomerWithId(String id) {
         Customer customer = customers.stream().filter(cust -> cust.getId().equals(id)).findFirst().get();
-        System.out.println("Customer ->"+customer);
+        LOG.info("Customer: {}",customer);
         return customer;
     }
 
@@ -60,10 +60,10 @@ public class CustomerService {
     }
 
     public ShippingStatus fetchStatusForGivenOrderId(String orderId) {
-        System.out.println("shipping order request id = " + orderId);
+        LOG.info("shipping order request id = {}" , orderId);
         String baseUrl = env.getProperty("shippingservice.url.orderid");
         ShippingStatus shippingStatus = restTemplate.getForObject(baseUrl, ShippingStatus.class,orderId);
-        System.out.println("order = " + shippingStatus);
+        LOG.info("order = {}" , shippingStatus);
         return shippingStatus;
     }
 }
